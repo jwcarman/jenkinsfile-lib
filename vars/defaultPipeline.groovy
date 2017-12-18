@@ -5,18 +5,18 @@ def call(body) {
     body.delegate = config
     body()
 
-    mavenVersion = config.mavenVersion ?: "Maven 3.5.x"
-    mavenGoals = config.mavenGoals ?: "clean install"
-
-    cfCredentials = config.cfCredentials ?: "pcf"
-    cfManifest = config.cfManifest ?: "target/classes/manifest.yml"
-    cfOrg = config.cfOrg ?: "microbule"
-    cfSpace = config.cfSpace ?: "development"
-    cfTarget = config.cfTarget ?: "https://api.run.pivotal.io"
-
-    mvnHome = tool mavenVersion
-
     node {
+        mavenVersion = config.mavenVersion ?: "Maven 3.5.x"
+        mavenGoals = config.mavenGoals ?: "clean install"
+
+        cfCredentials = config.cfCredentials ?: "pcf"
+        cfManifest = config.cfManifest ?: "target/classes/manifest.yml"
+        cfOrg = config.cfOrg ?: "microbule"
+        cfSpace = config.cfSpace ?: "development"
+        cfTarget = config.cfTarget ?: "https://api.run.pivotal.io"
+
+        mvnHome = tool mavenVersion
+
         stage('Checkout') {
             git "git@github.com:jwcarman/${config.repo}.git"
         }
