@@ -5,21 +5,30 @@ def call(body) {
     body.delegate = config
     body()
 
+    mavenVersion = config.mavenVersion ?: "Maven 3.5.x"
+    mavenGoals = config.mavenGoals ?: "clean install"
+
+    cfCredentials = config.cfCredentials ?: "pcf"
+    cfManifest = config.cfManifest ?: "target/classes/manifest.yml"
+    cfOrg = config.cfOrg ?: "microbule"
+    cfSpace = config.cfSpace ?: "development"
+    cfTarget = config.cfTarget ?: "https://api.run.pivotal.io"
+
+    mvnHome = tool mavenVersion
+
     node {
-        def mvnHome
-        stage('Preparation') {
+        stage('Checkout') {
             git "git@github.com:jwcarman/${config.repo}.git"
-            mvnHome = tool 'Maven 3.5.x'
         }
-        stage('Build') {
-            sh "'${mvnHome}/bin/mvn' clean install"
+        stage('Maven Build') {
+            sh "'${mvnHome}/bin/mvn' ${mavenGoals}"
         }
         stage('Results') {
             junit '**/target/surefire-reports/TEST-*.xml'
             archive 'target/*.jar'
         }
         stage('PWS') {
-            pushToCloudFoundry cloudSpace: 'development', credentialsId: 'pcf', manifestChoice: [manifestFile: 'target/classes/manifest.yml'], organization: 'microbule', target: 'https://api.run.pivotal.io'
+            pushToCloudFoundry cloudSpace: cfSpace, credentialsId: cfCredentials, manifestChoice: [manifestFile: cfManifest], organization: cfOrg, target: cfTarget
         }
     }
 }
