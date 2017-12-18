@@ -12,7 +12,7 @@ def call(body) {
             mvnHome = tool 'Maven 3.5.x'
         }
         stage('Build') {
-            sh "'${mvnHome}/bin/mvn' clean install""
+            sh "'${mvnHome}/bin/mvn' clean install"
         }
         stage('Results') {
             junit '**/target/surefire-reports/TEST-*.xml'
