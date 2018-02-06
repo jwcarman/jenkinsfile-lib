@@ -1,5 +1,5 @@
 def call(Closure body) {
-    config = parseConfig(body)
+    Map config = parseConfig(body)
     node {
         stage('Checkout') {
             doCheckout(config)
