@@ -1,7 +1,8 @@
 def call(Closure body) {
-    config = parseConfig() {
-        body()
-    }
+    def config = [:]
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = config
+    body()
 
     node {
         stage('Checkout') {
