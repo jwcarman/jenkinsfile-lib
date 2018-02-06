@@ -1,6 +1,6 @@
 def call(Map config) {
 
-    doCheckout scm
+    checkout scm
 
     gitUserName = config.gitUserName ?: "Jenkins"
     gitUserEmail = config.gitUserEmail ?: "jenkins@caramnconsulting.com"
