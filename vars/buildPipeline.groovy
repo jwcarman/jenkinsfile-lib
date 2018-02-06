@@ -1,5 +1,7 @@
 def call(Closure body) {
-    config = parseConfig(body)
+    config = parseConfig() {
+        body()
+    }
 
     node {
         stage('Checkout') {
