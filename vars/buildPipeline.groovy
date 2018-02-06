@@ -1,4 +1,4 @@
-def call(body) {
+def call(Closure body) {
     config = parseConfig(body)
 
     node {
